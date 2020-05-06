@@ -1,25 +1,3 @@
-
-/********************************************************************/
-/* Copyright (C) SSE-USTC, 2012-2013                                */
-/*                                                                  */
-/*  FILE NAME             :  linktabe.c                             */
-/*  PRINCIPAL AUTHOR      :  Mengning                               */
-/*  SUBSYSTEM NAME        :  LinkTable                              */
-/*  MODULE NAME           :  LinkTable                              */
-/*  LANGUAGE              :  C                                      */
-/*  TARGET ENVIRONMENT    :  ANY                                    */
-/*  DATE OF FIRST RELEASE :  2012/12/30                             */
-/*  DESCRIPTION           :  interface of Link Table                */
-/********************************************************************/
-
-/*
- * Revision log:
- *
- * Created by Mengning,2012/12/30
- * Provide right Callback interface by Mengning,2012/09/17
- *
- */
-
 #include<stdio.h>
 #include<stdlib.h>
 #include <pthread.h>

@@ -7,56 +7,30 @@
 int PrintMenuOS()
 {
     int i, j;
-    char data_M[FONTSIZE][FONTSIZE] =
+    char data_J[FONTSIZE][FONTSIZE] =
     {
         "          ",
-        "  *    *  ",
-        " ***  *** ",
-        " * *  * * ",
-        " * *  * * ",
-        " *  **  * ",
-        " *      * ",
-        " *      * ",
-        " *      * ",
-        "          "
-    };
-    char data_e[FONTSIZE][FONTSIZE] =
-    {
-        "          ",
-        "          ",
-        "    **    ",
+        "    ***** ",
+        "      *   ",
+        "      *   ",
+        "      *   ",
+        "      *   ",
+        "      *   ",
         "   *  *   ",
-        "  *    *  ",
-        "  ******  ",
-        "  *       ",
-        "   *      ",
-        "    ***   ",
-        "          "
-    };
-    char data_n[FONTSIZE][FONTSIZE] =
-    {
-        "          ",
-        "          ",
         "    **    ",
-        "   *  *   ",
-        "  *    *  ",
-        "  *    *  ",
-        "  *    *  ",
-        "  *    *  ",
-        "  *    *  ",
         "          "
     };
-    char data_u[FONTSIZE][FONTSIZE] =
+    char data_T[FONTSIZE][FONTSIZE] =
     {
         "          ",
         "          ",
-        "  *    *  ",
-        "  *    *  ",
-        "  *    *  ",
-        "  *    *  ",
-        "  *    *  ",
-        "   *  **  ",
-        "    **  * ",
+        "  ******* ",
+        "     *    ",
+        "     *    ",
+        "     *    ",
+        "     *    ",
+        "     *    ",
+        "     *    ",
         "          "
     };
     char data_O[FONTSIZE][FONTSIZE] =
@@ -90,19 +64,11 @@ int PrintMenuOS()
     {
         for(j=0; j<FONTSIZE; j++)
         {
-            printf("%c", data_M[i][j]);
+            printf("%c", data_J[i][j]);
         }
         for(j=0; j<FONTSIZE; j++)
         {
-            printf("%c", data_e[i][j]);
-        }
-        for(j=0; j<FONTSIZE; j++)
-        {
-            printf("%c", data_n[i][j]);
-        }
-        for(j=0; j<FONTSIZE; j++)
-        {
-            printf("%c", data_u[i][j]);
+            printf("%c", data_T[i][j]);
         }
         for(j=0; j<FONTSIZE; j++)
         {
@@ -150,8 +116,8 @@ int TimeAsm(int argc, char *argv[])
 int main()
 {
     PrintMenuOS();
-    SetPrompt("MenuOS>>");
-    MenuConfig("version","MenuOS V1.0(Based on Linux 3.18.6)",NULL);
+    SetPrompt("JtOS>>");
+    MenuConfig("version","JtOS V1.0",NULL);
     MenuConfig("quit","Quit from MenuOS",Quit);
     MenuConfig("time","Show System Time",Time);
     MenuConfig("time-asm","Show System Time(asm)",TimeAsm);

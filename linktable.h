@@ -1,24 +1,3 @@
-
-/********************************************************************/
-/* Copyright (C) SSE-USTC, 2012-2013                                */
-/*                                                                  */
-/*  FILE NAME             :  linktabe.h                             */
-/*  PRINCIPAL AUTHOR      :  Mengning                               */
-/*  SUBSYSTEM NAME        :  LinkTable                              */
-/*  MODULE NAME           :  LinkTable                              */
-/*  LANGUAGE              :  C                                      */
-/*  TARGET ENVIRONMENT    :  ANY                                    */
-/*  DATE OF FIRST RELEASE :  2012/12/30                             */
-/*  DESCRIPTION           :  interface of Link Table                */
-/********************************************************************/
-
-/*
- * Revision log:
- *
- * Created by Mengning,2012/12/30
- *
- */
-
 #ifndef _LINK_TABLE_H_
 #define _LINK_TABLE_H_
 

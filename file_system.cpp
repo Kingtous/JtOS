@@ -87,12 +87,11 @@ int PrintOS()
 
 int Quit(int argc, char *argv[])
 {
-    system("shutdown");
+    system("poweroff");
 }
 
 int Time(int argc, char *argv[])
 {
-    ;
     for (int i = 0; i < argc; i++)
     {
         printf("argv-%d: %s\n",i,argv[i]);
@@ -110,6 +109,27 @@ int Version(int argc,char* argv[]){
     printf("JtOS ");
 }
 
+int Shutdown(int argc,char* argv[]){
+
+    int result_code = -1;
+    int shutdown_code = 88;
+
+    int magic_1 = LINUX_REBOOT_MAGIC1;
+    int magic_2 = LINUX_REBOOT_MAGIC2;
+
+    int shutdown_command = LINUX_REBOOT_CMD_POWER_OFF;
+
+    asm volatile(
+        "movl %1,%%eax \n\t"
+        "int $0x80 \n\t"
+        "movl %%ebx,%0 \n\t"
+        : "=m"(result_code)
+        : "r"(shutdown_code),"ebx"(magic_1),"ecx"(magic_2),"edx"(shutdown_command)
+        : "eax"
+    );
+    printf("the result code is %d",&result_code);
+}
+
 int main(){
     // 文件系统
     FileSystem fileSystem(1024);
@@ -118,7 +138,7 @@ int main(){
     MenuConfig("version","JtOS V1.0",Version);
     MenuConfig("quit","Quit from MenuOS",Quit);
     MenuConfig("time","Current Time is",Time);
-    MenuConfig("format","Clean ALL DATA!",fileSystem.format);
+    MenuConfig("shutdown","shutdown your computer",Shutdown);
     ExecuteMenu();
 
     // while (true){

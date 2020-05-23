@@ -112,10 +112,17 @@ int ExecuteMenu()
         printf("%s",prompt);
         /* scanf("%s", cmd); */
 		pcmd = fgets(cmd, CMD_MAX_LEN, stdin);
-		if(pcmd == NULL)
+		if(pcmd == NULL || pcmd[0] == '\n')
 		{
 			continue;
 		}
+        // replace \n 
+        for (int index = 0;pcmd[index]!='\0';index++){
+            if(pcmd[index] == '\n'){
+                pcmd[index] = '\0';
+                break;
+            }
+        }
         /* convert cmd to argc/argv */
 		pcmd = strtok(pcmd," ");
 		while(pcmd != NULL && argc < CMD_MAX_ARGV_NUM)
@@ -124,11 +131,6 @@ int ExecuteMenu()
 			argc++;
 			pcmd = strtok(NULL," ");
 		}
-        if(argc == 1)
-        {
-            int len = strlen(argv[0]);
-            *(argv[0] + len - 1) = '\0';
-        }
         tDataNode *p = (tDataNode*)SearchLinkTableNode(head,SearchConditon,(void*)argv[0]);
         if( p == NULL)
         {

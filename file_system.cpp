@@ -1,6 +1,7 @@
 #include <iostream>
 #include "file_system.h"
 #include "menu.h"
+#include "fs.h"
 
 using namespace std;
 
@@ -85,11 +86,6 @@ int PrintOS()
     return 0;
 }
 
-int Quit(int argc, char *argv[])
-{
-    system("poweroff");
-}
-
 int Time(int argc, char *argv[])
 {
     for (int i = 0; i < argc; i++)
@@ -106,7 +102,7 @@ int Time(int argc, char *argv[])
 }
 
 int Version(int argc,char* argv[]){
-    printf("JtOS ");
+    printf("JtOS Version 1.0\n");
 }
 
 int Shutdown(int argc,char* argv[]){
@@ -130,15 +126,20 @@ int Shutdown(int argc,char* argv[]){
     printf("the result code is %d",&result_code);
 }
 
+int Ls(int argc,char* argv[]){
+    
+}
+
 int main(){
     // 文件系统
     FileSystem fileSystem(1024);
     PrintOS();
     SetPrompt("JtOS CS170217 >> ");
     MenuConfig("version","JtOS V1.0",Version);
-    MenuConfig("quit","Quit from MenuOS",Quit);
     MenuConfig("time","Current Time is",Time);
     MenuConfig("shutdown","shutdown your computer",Shutdown);
+    MenuConfig("cwd","show your current directory",cwd);
+    MenuConfig("ls","list files from directory",ls);
     ExecuteMenu();
 
     // while (true){

@@ -10,13 +10,13 @@ RM                           = rm
 RM_FLAGS                     = -f
 
 TARGET  =   JtOS
-OBJS    =   linktable.o  menu.o main.o
+OBJS    =   linktable.o  menu.o main.o fs.o
 
 all:	$(OBJS)
 	$(CC) $(CC_OUTPUT_FLAGS) $(TARGET) $(OBJS) 
 sys:
 	if [ ! -d rootfs ]; then mkdir rootfs; fi
-	g++ -o ./rootfs/init linktable.cpp menu.cpp file_system.cpp -m32 -static -lpthread
+	g++ -o ./rootfs/init linktable.cpp menu.cpp file_system.cpp fs.cpp -m32 -static -lpthread
 	make -C rootfs
 .c.o:
 	$(CC) $(CC_FLAGS) $<

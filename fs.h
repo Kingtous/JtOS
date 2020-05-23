@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
+#include "menu.h"
 
 extern int errno;
 
@@ -19,6 +20,9 @@ int cwd(int argc,char* argv[]);
 
 // list current dir
 int ls(int argc,char* argv[]);
+
+// chdir
+int cd(int argc,char* argv[0]);
 
 
 

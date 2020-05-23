@@ -6,6 +6,8 @@
 using namespace std;
 
 #define FONTSIZE 10
+#define AUTHOR "Kingtous"
+#define PROJECT_DATE "2020-05-23"
 
 int PrintOS()
 {
@@ -83,6 +85,7 @@ int PrintOS()
         }
         printf("\n");
     }
+    printf("Author:%s\nProject Date:%s\n",AUTHOR,PROJECT_DATE);
     return 0;
 }
 
@@ -132,14 +135,16 @@ int Ls(int argc,char* argv[]){
 
 int main(){
     // 文件系统
+    sleep(2);
     FileSystem fileSystem(1024);
     PrintOS();
-    SetPrompt("JtOS CS170217 >> ");
+    SetPrompt("/ >> ");
     MenuConfig("version","JtOS V1.0",Version);
     MenuConfig("time","Current Time is",Time);
     MenuConfig("shutdown","shutdown your computer",Shutdown);
     MenuConfig("cwd","show your current directory",cwd);
     MenuConfig("ls","list files from directory",ls);
+    MenuConfig("cd","change to a new directory",cd);
     ExecuteMenu();
 
     // while (true){

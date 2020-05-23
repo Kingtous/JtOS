@@ -31,3 +31,4 @@
 # VSCode 
 .vscode/**
 rootfs/*[!Makefile]
+fs

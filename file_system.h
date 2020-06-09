@@ -7,8 +7,7 @@
 
 // 简单文件系统
 #include <string>
-// 
-#include </usr/include/linux/reboot.h>
+
 #define FILE 'F'
 #define DIRECTORY 'D'
 using namespace std;

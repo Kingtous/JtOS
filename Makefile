@@ -9,14 +9,16 @@ CC                           = g++
 RM                           = rm
 RM_FLAGS                     = -f
 
+FILES   =   linktable.cpp menu.cpp file_system.cpp fs.cpp jtime.cpp jsystem.cpp
 TARGET  =   JtOS
-OBJS    =   linktable.o  menu.o main.o fs.o
+OBJS    =   linktable.o  menu.o main.o fs.o jtime.o jsystem.o
+
 
 all:	$(OBJS)
 	$(CC) $(CC_OUTPUT_FLAGS) $(TARGET) $(OBJS) 
 sys:
 	if [ ! -d rootfs ]; then mkdir rootfs; fi
-	g++ -o ./rootfs/init linktable.cpp menu.cpp file_system.cpp fs.cpp -m32 -static -lpthread
+	g++ -o ./rootfs/init $(FILES) -m32 -static -lpthread
 	make -C rootfs
 .c.o:
 	$(CC) $(CC_FLAGS) $<

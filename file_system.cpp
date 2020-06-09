@@ -2,6 +2,8 @@
 #include "file_system.h"
 #include "menu.h"
 #include "fs.h"
+#include "jtime.h"
+#include "jsystem.h"
 
 using namespace std;
 
@@ -89,48 +91,8 @@ int PrintOS()
     return 0;
 }
 
-int Time(int argc, char *argv[])
-{
-    for (int i = 0; i < argc; i++)
-    {
-        printf("argv-%d: %s\n",i,argv[i]);
-    }
-    
-    time_t tt;
-    struct tm *t;
-    tt = time(NULL);
-    t = localtime(&tt);
-    printf("time:%d:%d:%d:%d:%d:%d\n",t->tm_year+1900, t->tm_mon, t->tm_mday, t->tm_hour, t->tm_min, t->tm_sec);
-    return 0;
-}
-
 int Version(int argc,char* argv[]){
     printf("JtOS Version 1.0\n");
-}
-
-int Shutdown(int argc,char* argv[]){
-
-    int result_code = -1;
-    int shutdown_code = 88;
-
-    int magic_1 = LINUX_REBOOT_MAGIC1;
-    int magic_2 = LINUX_REBOOT_MAGIC2;
-
-    int shutdown_command = LINUX_REBOOT_CMD_POWER_OFF;
-
-    asm volatile(
-        "movl %1,%%eax \n\t"
-        "int $0x80 \n\t"
-        "movl %%ebx,%0 \n\t"
-        : "=m"(result_code)
-        : "r"(shutdown_code),"ebx"(magic_1),"ecx"(magic_2),"edx"(shutdown_command)
-        : "eax"
-    );
-    printf("the result code is %d",&result_code);
-}
-
-int Ls(int argc,char* argv[]){
-    
 }
 
 int main(){
@@ -141,60 +103,13 @@ int main(){
     SetPrompt("/ >> ");
     MenuConfig("version","JtOS V1.0",Version);
     MenuConfig("time","Current Time is",Time);
-    MenuConfig("shutdown","shutdown your computer",Shutdown);
-    MenuConfig("cwd","show your current directory",cwd);
+
+    MenuConfig("shutdown","shutdown your computer",shutdown);
+    MenuConfig("reboot","reboot your computer",restart);
+    MenuConfig("pwd","show your current directory",cwd);
     MenuConfig("ls","list files from directory",ls);
     MenuConfig("cd","change to a new directory",cd);
     ExecuteMenu();
 
-    // while (true){
-    //     printf("FileSystem: %s > ",fileSystem.getCurrentFolder().c_str());
-    //     cin>>op>>value;
-    //     if(op == "format"){
-    //         fileSystem.format();
-    //     }
-    //     else if(op == "rm"){
-    //         fileSystem.rm(value);
-    //     }
-    //     else if(op == "create"){
-    //         int length;
-    //         printf("File Length:");
-    //         cin>>length;
-    //         fileSystem.create(value,length);
-    //     }
-    //     else if(op == "write"){
-    //         printf("Input Content:");
-    //         cin>>extra;
-    //         fileSystem.write(value,extra);
-    //     }
-    //     else if(op == "read"){
-    //         fileSystem.read(value);
-    //     }
-    //     else if(op =="open"){
-    //         fileSystem.open(value);
-    //     }
-    //     else if(op == "close"){
-    //         fileSystem.close(value);
-    //     }
-    //     else if(op == "ls"){
-    //         fileSystem.ls();
-    //     }
-    //     else if(op =="mkdir"){
-    //         fileSystem.mkdir(value);
-    //     }
-    //     else if(op == "rmdir"){
-    //         fileSystem.rmdir(value);
-    //     }
-    //     else if(op == "cd"){
-    //         fileSystem.cd(value);
-    //     }
-    //     else if(op == "exit"){
-    //         break;
-    //     }
-    //     else{
-    //         fprintf(stderr,"\nUnknown Operator.\n");
-    //     }
-    //     cout<<endl;
-    // }
     return 0;
 }

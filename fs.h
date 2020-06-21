@@ -12,18 +12,20 @@
 #include <errno.h>
 #include <string.h>
 #include "menu.h"
+#define OUTPUT_ERROR fprintf(stderr, "%s\n", strerror(errno));
 
 extern int errno;
 
 // get current folder
-int cwd(int argc,char* argv[]);
+int Cwd(int argc, char **argv);
 
 // list current dir
-int ls(int argc,char* argv[]);
+int Ls(int argc, char **argv);
 
 // chdir
-int cd(int argc,char* argv[0]);
+int Cd(int argc, char **argv);
 
+int Rm(int argc, char **argv);
 
 
 #endif

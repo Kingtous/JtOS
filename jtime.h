@@ -6,4 +6,6 @@
 // get time
 int Time(int argc, char *argv[]);
 
+int InitTimeScreen();
+
 #endif

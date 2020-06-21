@@ -103,13 +103,17 @@ int main(){
     SetPrompt("/ >> ");
     MenuConfig("version","JtOS V1.0",Version);
     MenuConfig("time","Current Time is",Time);
-
-    MenuConfig("shutdown","shutdown your computer",shutdown);
-    MenuConfig("reboot","reboot your computer",restart);
-    MenuConfig("pwd","show your current directory",cwd);
-    MenuConfig("ls","list files from directory",ls);
-    MenuConfig("cd","change to a new directory",cd);
+    MenuConfig("Shutdown", "Shutdown your computer", Shutdown);
+    MenuConfig("reboot", "reboot your computer", Restart);
+    MenuConfig("pwd", "show your current directory", Cwd);
+    MenuConfig("ls", "list files from directory", Ls);
+    MenuConfig("cd", "change to a new directory", Cd);
+    MenuConfig("rm", "remove file/dir", Rm);
+//    MenuConfig("touch","create empty file",Touch);
+//    MenuConfig("mkdir","create empty directory",Mkdir);
+//    MenuConfig("edit","edit file",Edit);
+    // 初始化时间Screen
+    InitTimeScreen();
     ExecuteMenu();
-
     return 0;
 }

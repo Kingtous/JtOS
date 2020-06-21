@@ -10,6 +10,7 @@ RM                           = rm
 RM_FLAGS                     = -f
 
 FILES   =   linktable.cpp menu.cpp file_system.cpp fs.cpp jtime.cpp jsystem.cpp
+ARM_FILES = linktable.cpp menu.cpp file_system.cpp fs.cpp jtime.cpp
 TARGET  =   JtOS
 OBJS    =   linktable.o  menu.o main.o fs.o jtime.o jsystem.o
 
@@ -20,6 +21,12 @@ sys:
 	if [ ! -d rootfs ]; then mkdir rootfs; fi
 	g++ -o ./rootfs/init $(FILES) -m32 -static -lpthread
 	make -C rootfs
+
+arm:
+	if [ ! -d rootfs ]; then mkdir rootfs; fi
+	arm-linux-gnueabi-g++ -o ./rootfs/init $(ARM_FILES) -static -lpthread
+	make -C rootfs
+
 .c.o:
 	$(CC) $(CC_FLAGS) $<
 

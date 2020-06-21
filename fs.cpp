@@ -1,7 +1,7 @@
 #include "fs.h"
 
 
-int cwd(int argc, char *argv[])
+int Cwd(int argc, char **argv)
 {
 	char *dir_name = get_current_dir_name();
 	if (dir_name == NULL)
@@ -16,7 +16,7 @@ int cwd(int argc, char *argv[])
 
 
 // list
-int ls(int argc, char *argv[])
+int Ls(int argc, char **argv)
 {
 	DIR *dir;
 	struct dirent *entry;
@@ -30,7 +30,7 @@ int ls(int argc, char *argv[])
 		}
 		else
 		{
-			fprintf(stderr, "Usage: ls <path>\n", errno);
+			fprintf(stderr, "Usage: Ls <path>\n", errno);
 			return 0;
 		}
 	}
@@ -42,7 +42,7 @@ int ls(int argc, char *argv[])
 	printf("opening: %s\n", path);
 	if ((dir = opendir(path)) == NULL)
 	{
-		fprintf(stderr, "%s\n", strerror(errno));
+		OUTPUT_ERROR
 		return errno;
 	}
 	else
@@ -73,14 +73,14 @@ int ls(int argc, char *argv[])
 }
 
 // chdir
-int cd(int argc,char* argv[]){
+int Cd(int argc, char **argv){
 	if (argc == 1)
 	{
 		return 0;
 	}
 	else if (argc > 2)
 	{
-		fprintf(stderr,"Usage: cd <dir>\n");
+		fprintf(stderr,"Usage: Cd <dir>\n");
 	}
 	else
 	{
@@ -98,4 +98,57 @@ int cd(int argc,char* argv[]){
 		}
 	}
 	return 0;
+}
+void DeleteFile(const char* path);
+
+int Rm(int argc, char **argv) {
+    if (argc == 1)
+    {
+        return 0;
+    }
+    else if (argc > 2)
+    {
+        fprintf(stderr,"Usage: Rm <dir/file>\n");
+    }
+    else
+    {
+        DeleteFile(argv[1]);
+        return 0;
+    }
+}
+
+void AppendPath(const char *path, const char *filename, char *filepath)
+{
+    strcpy(filepath, path);
+    if(filepath[strlen(path) - 1] != '/')
+        strcat(filepath, "/");
+    strcat(filepath, filename);
+}
+
+void DeleteFile(const char* path)
+{
+    DIR *dir;
+    struct dirent *dirinfo;
+    struct stat statbuf;
+    char filepath[256] = {0};
+    lstat(path, &statbuf);
+    if (S_ISREG(statbuf.st_mode))//判断是否是常规文件
+    {
+        if (remove(path) != 0){
+            OUTPUT_ERROR
+        }
+    }
+    else if (S_ISDIR(statbuf.st_mode))//判断是否是目录
+    {
+        if ((dir = opendir(path)) == NULL)
+            return;
+        while ((dirinfo = readdir(dir)) != NULL) {
+            AppendPath(path, dirinfo->d_name, filepath);
+            if (strcmp(dirinfo->d_name, ".") == 0 || strcmp(dirinfo->d_name, "..") == 0)//判断是否是特殊目录
+                continue;
+            DeleteFile(filepath);
+            rmdir(filepath);
+        }
+        closedir(dir);
+    }
 }

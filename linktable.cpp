@@ -12,7 +12,6 @@ struct LinkTable
     tLinkTableNode *pTail;
     int			SumOfNode;
     pthread_mutex_t mutex;
-
 };
 
 

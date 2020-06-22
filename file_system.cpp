@@ -9,7 +9,7 @@ using namespace std;
 
 #define FONTSIZE 10
 #define AUTHOR "Kingtous"
-#define PROJECT_DATE "2020-05-23"
+#define PROJECT_DATE "2020-05-23~today"
 
 int PrintOS()
 {
@@ -73,14 +73,17 @@ int PrintOS()
         {
             printf("%c", data_J[i][j]);
         }
+        usleep(50000);
         for(j=0; j<FONTSIZE; j++)
         {
             printf("%c", data_T[i][j]);
         }
+        usleep(50000);
         for(j=0; j<FONTSIZE; j++)
         {
             printf("%c", data_O[i][j]);
         }
+        usleep(50000);
         for(j=0; j<FONTSIZE; j++)
         {
             printf("%c", data_S[i][j]);
@@ -93,6 +96,7 @@ int PrintOS()
 
 int Version(int argc,char* argv[]){
     printf("JtOS Version 1.0\n");
+    return 0;
 }
 
 int main(){
@@ -101,17 +105,19 @@ int main(){
     FileSystem fileSystem(1024);
     PrintOS();
     SetPrompt("/ >> ");
-    MenuConfig("version","JtOS V1.0",Version);
-    MenuConfig("time","Current Time is",Time);
+    MenuConfig("version", "JtOS V1.0", Version);
+    MenuConfig("time", "Current Time is", Time);
     MenuConfig("Shutdown", "Shutdown your computer", Shutdown);
     MenuConfig("reboot", "reboot your computer", Restart);
     MenuConfig("pwd", "show your current directory", Cwd);
     MenuConfig("ls", "list files from directory", Ls);
     MenuConfig("cd", "change to a new directory", Cd);
     MenuConfig("rm", "remove file/dir", Rm);
-//    MenuConfig("touch","create empty file",Touch);
-//    MenuConfig("mkdir","create empty directory",Mkdir);
-//    MenuConfig("edit","edit file",Edit);
+    MenuConfig("touch", "create empty file", Touch);
+    MenuConfig("mkdir", "create empty directory", Mkdir);
+    MenuConfig("edit", "edit file", Edit);
+    MenuConfig("rc", "get row and column size", RowColumnValue);
+    MenuConfig("cls", "clear screen", clearScreen);
     // 初始化时间Screen
     InitTimeScreen();
     ExecuteMenu();

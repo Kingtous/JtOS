@@ -5,22 +5,24 @@
 #ifndef UNTITLED_FILE_SYSTEM_H
 #define UNTITLED_FILE_SYSTEM_H
 
-// 简单文件系统
+// 简单Memory文件系统
 #include <string>
 
 #define FILE 'F'
 #define DIRECTORY 'D'
 using namespace std;
 
+int PrintOS();
+
 // 文件
-typedef struct FPCB{
+typedef struct FPCB {
     string fileName = "Untitiled";
     string content;
     char property = FILE;
     int firstBlock = -1;
     int length = 1;
     bool authority = false; // 权限
-    FPCB* neigh = nullptr;
+    FPCB *neigh = nullptr;
     FPCB* father = nullptr;
     FPCB* child = nullptr;
 }FPCB;

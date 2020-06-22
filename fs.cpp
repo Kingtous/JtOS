@@ -42,9 +42,9 @@ int Ls(int argc, char **argv)
 	printf("opening: %s\n", path);
 	if ((dir = opendir(path)) == NULL)
 	{
-		OUTPUT_ERROR
-		return errno;
-	}
+        OUTPUT_ERROR;
+        return errno;
+    }
 	else
 	{
 		// read files info
@@ -105,27 +105,67 @@ int Rm(int argc, char **argv) {
     if (argc == 1)
     {
         return 0;
-    }
-    else if (argc > 2)
-    {
-        fprintf(stderr,"Usage: Rm <dir/file>\n");
-    }
-    else
-    {
+    } else if (argc > 2) {
+        fprintf(stderr, "Usage: Rm <dir/file>\n");
+    } else {
         DeleteFile(argv[1]);
         return 0;
     }
 }
 
-void AppendPath(const char *path, const char *filename, char *filepath)
-{
+static bool touch(const char *file);
+
+int Touch(int argc, char **argv) {
+    if (argc == 1) {
+        return 0;
+    } else if (argc > 2) {
+        fprintf(stderr, "Usage: touch <file>\n");
+    } else {
+        touch(argv[1]);
+        return 0;
+    }
+}
+
+static bool touch(const char *file) {
+    bool ok;
+    int fd = -1;
+    if (!no_create) {
+        fd = open(file, O_CREAT | O_WRONLY, MODE_RW_UGO);
+    }
+    newtime[0].tv_nsec = UTIME_NOW;
+    newtime[1].tv_nsec = UTIME_NOW;
+    //AT_FDCWD表示当前工作目录。
+    ok = (utimensat(AT_FDCWD, file, newtime, 0) == 0);
+    return ok;
+}
+
+int Mkdir(int argc, char **argv) {
+    if (argc == 1) {
+        return 0;
+    } else if (argc > 2) {
+        fprintf(stderr, "Usage: touch <file>\n");
+    } else {
+        if (mkdir(argv[1], 0755) != 0) {
+            OUTPUT_ERROR;
+        }
+        return 0;
+    }
+    return 0;
+}
+
+int Edit(int argc, char **argv) {
+
+    return 0;
+}
+
+void AppendPath(const char *path, const char *filename, char *filepath) {
     strcpy(filepath, path);
-    if(filepath[strlen(path) - 1] != '/')
+    if (filepath[strlen(path) - 1] != '/')
         strcat(filepath, "/");
     strcat(filepath, filename);
 }
 
-void DeleteFile(const char* path)
+void DeleteFile(const char *path)
 {
     DIR *dir;
     struct dirent *dirinfo;
@@ -134,8 +174,8 @@ void DeleteFile(const char* path)
     lstat(path, &statbuf);
     if (S_ISREG(statbuf.st_mode))//判断是否是常规文件
     {
-        if (remove(path) != 0){
-            OUTPUT_ERROR
+        if (remove(path) != 0) {
+            OUTPUT_ERROR;
         }
     }
     else if (S_ISDIR(statbuf.st_mode))//判断是否是目录

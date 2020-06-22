@@ -105,20 +105,22 @@ int ExecuteMenu()
    /* cmd line begins */
     while(1)
     {
-		int argc = 0;
-		char *argv[CMD_MAX_ARGV_NUM];
+        int argc = 0;
+        char *argv[CMD_MAX_ARGV_NUM];
         char cmd[CMD_MAX_LEN];
-		char *pcmd = NULL;
-        printf("%s",prompt);
+        char *pcmd = NULL;
+        printf("%s", prompt);
         /* scanf("%s", cmd); */
-		pcmd = fgets(cmd, CMD_MAX_LEN, stdin);
-		if(pcmd == NULL || pcmd[0] == '\n')
-		{
-			continue;
-		}
+        pcmd = fgets(cmd, CMD_MAX_LEN, stdin);
+        pthread_mutex_lock(&time_pass_lock);
+        time_pass = 0;
+        pthread_mutex_unlock(&time_pass_lock);
+        if (pcmd == NULL || pcmd[0] == '\n') {
+            continue;
+        }
         // replace \n 
-        for (int index = 0;pcmd[index]!='\0';index++){
-            if(pcmd[index] == '\n'){
+        for (int index = 0; pcmd[index] != '\0'; index++) {
+            if (pcmd[index] == '\n') {
                 pcmd[index] = '\0';
                 break;
             }

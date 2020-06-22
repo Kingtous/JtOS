@@ -1,16 +1,18 @@
 #include "fs.h"
 
+#define PROMPT_BUFSIZE 1024
 
-int Cwd(int argc, char **argv)
-{
-	char *dir_name = get_current_dir_name();
-	if (dir_name == NULL)
-	{
-		fprintf(stderr, "%d-error getting current directory name.\n", &errno);
-		return -1;
-	}
-	printf("current dir:%s\n", dir_name);
-	return 0;
+static char prompt_header[PROMPT_BUFSIZE];
+
+int Cwd(int argc, char **argv) {
+    char *dir_name = get_current_dir_name();
+    if (dir_name == NULL) {
+        fprintf(stderr, "%d-error getting current directory name.\n", &errno);
+        return -1;
+    }
+    printf("current dir:%s\n", dir_name);
+    free(dir_name);
+    return 0;
 }
 
 
@@ -24,10 +26,9 @@ int Ls(int argc, char **argv)
 	char *path;
 	if (argc != 2)
 	{
-		if (argc == 1)
-		{
-			path = ".";
-		}
+		if (argc == 1) {
+            path = get_current_dir_name();
+        }
 		else
 		{
 			fprintf(stderr, "Usage: Ls <path>\n", errno);
@@ -58,18 +59,17 @@ int Ls(int argc, char **argv)
 				if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
 				{
 					continue;
-				}
-				printf("%s \t %s \t %ldKB\n", "DIR", entry->d_name,statbuf.st_size/1024);
-			}
-			else
-			{
-				printf("%s \t %s \t %ldKB\n", "FILE", entry->d_name,statbuf.st_size/1024);
-			}
-		}
-		// output
-		closedir(dir);
-		return 0;
-	}
+                }
+                printf("%s \t %s \t %ldKB\n", "DIR", entry->d_name, statbuf.st_size / 1024);
+            } else {
+                printf("%s \t %s \t %ldKB\n", "FILE", entry->d_name, statbuf.st_size / 1024);
+            }
+        }
+        // output
+        closedir(dir);
+        free(path);
+        return 0;
+    }
 }
 
 // chdir
@@ -85,20 +85,19 @@ int Cd(int argc, char **argv){
 	else
 	{
 		int code = chdir(argv[1]);
-		if (code != 0)
-		{
-			fprintf(stderr,"%s\n",strerror(errno));
-			return code;
-		}
-		else
-		{
-			char* current_dir_name = get_current_dir_name();
-			char* prompt_header = strcat(current_dir_name," >> ");
-			SetPrompt(prompt_header);
-		}
+		if (code != 0) {
+            OUTPUT_ERROR;
+            return code;
+        }
+		else {
+            getcwd(prompt_header, PROMPT_BUFSIZE);
+            char *cat_prompt_header = strcat(prompt_header, " >> ");
+            SetPrompt(cat_prompt_header);
+        }
 	}
 	return 0;
 }
+
 void DeleteFile(const char* path);
 
 int Rm(int argc, char **argv) {
@@ -143,7 +142,7 @@ int Mkdir(int argc, char **argv) {
     if (argc == 1) {
         return 0;
     } else if (argc > 2) {
-        fprintf(stderr, "Usage: touch <file>\n");
+        fprintf(stderr, "Usage: mkdir <file>\n");
     } else {
         if (mkdir(argv[1], 0755) != 0) {
             OUTPUT_ERROR;
@@ -154,7 +153,22 @@ int Mkdir(int argc, char **argv) {
 }
 
 int Edit(int argc, char **argv) {
+//    char buf[PROMPT_BUFSIZE];
+//    auto process = popen(". /edit","r");
+//    if (!process){
+//        fprintf(stderr,"Error popen\n");
+//        return errno;
+//    }
+//    while (fgets(buf,PROMPT_BUFSIZE,process)){
+//        fprintf(stdout,"%s",buf);
+//    }
+//    pclose(process);
+    system("./edit");
+    return 0;
+}
 
+int initFs() {
+    memset(prompt_header, 0, sizeof(char) * PROMPT_BUFSIZE);
     return 0;
 }
 
@@ -187,7 +201,9 @@ void DeleteFile(const char *path)
             if (strcmp(dirinfo->d_name, ".") == 0 || strcmp(dirinfo->d_name, "..") == 0)//判断是否是特殊目录
                 continue;
             DeleteFile(filepath);
-            rmdir(filepath);
+        }
+        if (rmdir(path) != 0) {
+            OUTPUT_ERROR;
         }
         closedir(dir);
     }

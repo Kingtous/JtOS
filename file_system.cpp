@@ -73,17 +73,14 @@ int PrintOS()
         {
             printf("%c", data_J[i][j]);
         }
-        usleep(50000);
         for(j=0; j<FONTSIZE; j++)
         {
             printf("%c", data_T[i][j]);
         }
-        usleep(50000);
         for(j=0; j<FONTSIZE; j++)
         {
             printf("%c", data_O[i][j]);
         }
-        usleep(50000);
         for(j=0; j<FONTSIZE; j++)
         {
             printf("%c", data_S[i][j]);
@@ -103,6 +100,7 @@ int main(){
     // 文件系统
     sleep(2);
     FileSystem fileSystem(1024);
+    initFs();
     PrintOS();
     SetPrompt("/ >> ");
     MenuConfig("version", "JtOS V1.0", Version);

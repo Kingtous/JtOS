@@ -26,10 +26,13 @@
 #include "menu.h"
 #include "sys/stat.h"
 
-#define OUTPUT_ERROR fprintf(stderr, "%s\n", strerror(errno))
+#define OUTPUT_ERROR fprintf(stderr, "\n%s\n", strerror(errno))
 
 //定义创建文件时的模式，此处对用户，组，其他设置的权限都是可读可写。
 #define MODE_RW_UGO (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
+
+// should be called first
+int initFs();
 
 //标志文件access time 和 modify time的改变情况
 static int change_times;
